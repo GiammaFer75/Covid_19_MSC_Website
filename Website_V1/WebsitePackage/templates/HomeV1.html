@@ -1,0 +1,36 @@
+{% extends "general_layout.html" %}
+{% block content %}
+	<div class="container">
+
+		<div class="row" id="button_table_area">
+			<div class="col-3 d-grid gap-3 my-auto mt-2 justify-content-center" id="interactingArea"> <!-- https://radu.link/make-footer-stay-bottom-page-bootstrap/ -->
+				<a type="button" class="btn btn-primary" id="NewPatientsGroup" href="{{ url_for('page1') }}">New Patients Group</a>	
+				<a type="button" class="btn btn-primary" id="Search" href="{{ url_for('page1') }}">Search</a>	
+ 			</div>
+			<div class="col-9 mt-2 bg-secondary min-vh-75" id="visualResults">
+				<table class="table table-success table-striped">
+	  				<thead>
+			            <tr>
+			              <th scope="col">group ID</th>
+			              <th scope="col">Description</th>
+			              <th scope="col">Repositories</th>
+			            </tr>
+					</thead>
+					<tbody class="table-group-divider">
+						{% for index, row in subject_group_table.iterrows() %}
+			            <tr>
+			              <th scope="row">{{ index }}</th>
+			              <td colspan="0">{{ row['description'] }}</td>
+			              <td>{{ row['repositories'] }}</td>
+
+						</tr>
+			            {% endfor %}
+
+					  </tbody>
+
+				</table>				
+			</div>
+		</div>
+	</div>	
+{% endblock content %}
+

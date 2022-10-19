@@ -1,0 +1,7 @@
+# Dummy table
+    dt = [{'id': '001', 'description': 'Hospitalized subjects', 'rep':['p','m','z']},
+          {'id': '002', 'description': 'Young students'       , 'rep':['p','z']},
+          {'id': '003', 'description': 'Female from Wales'    , 'rep':['p','m','z']},
+          {'id': '004', 'description': 'Male from London'     , 'rep':['p','m']},
+          {'id': '005', 'description': 'Scottish healthcare personnel', 'rep':['m']},
+          {'id': '006', 'description': 'Commonwealth research', 'rep':['p']}]

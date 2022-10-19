@@ -1,0 +1,41 @@
+{% extends "general_layout.html" %}
+{% block content %}
+<div>
+	<h1>Delete Record</h1>
+</div>
+
+<form action="{{ url_for('Delete_Record') }}" method="post">
+
+	<div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <span class="input-group-text" id="basic-addon1">Group ID</span>
+	  </div>
+	  <input type="text" class="form-control" name="group_id" value="" placeholder="Group Description" aria-label="Group Description" aria-describedby="basic-addon1">
+	</div>
+
+	<div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <span class="input-group-text" id="basic-addon1">Group Description</span>
+	  </div>
+	  <input type="text" class="form-control" name="description" value="" placeholder="Group Description" aria-label="Group Description" aria-describedby="basic-addon1">
+	</div>
+
+	<div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <span class="input-group-text" id="basic-addon1">Repositories</span>
+	  </div>
+	  <input type="text" class="form-control" name="repositories" value="" placeholder="Repositories" aria-label="Repositories" aria-describedby="basic-addon1">
+	</div>
+
+	<div class="container">
+		<input type="submit" class="btn btn-primary" id="Submit" value=Submit ></input>
+	</div>
+</form>
+
+
+<!-- href="{{ url_for('home_page') }}" -->
+
+<div class="container">
+	<a type="button" class="btn btn-primary" id="Search" href="{{ url_for('home_page') }}">Return to the Home Page</a>
+</div>
+{% endblock content %}

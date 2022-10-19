@@ -1,0 +1,33 @@
+{% extends "general_layout.html" %}
+{% block content %}
+
+<div class="row">
+ <div class="col-sm-3 d-grid gap-2 my-auto mt-2 justify-content-center">
+  <a type="button" class="btn btn-primary btn-lg btn-block" href="{{ url_for('Create_DD') }}">Generate Dummy-database </a> 
+  <button type="button" class="btn btn-primary btn-lg btn-block">Same sized </button>
+  <button type="button" class="btn btn-primary btn-lg btn-block">Same sized button</button>
+ </div>
+<div class="col-9 mt-2 bg-secondary min-vh-75" id="visualResults">
+    <table class="table table-success table-striped">
+        <thead>
+            <tr>
+              <th scope="col">group ID</th>
+              <th scope="col">Description</th>
+              <th scope="col">Repositories</th>
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+
+        {% for index,row in subject_group_table.iterrows() %}
+            <tr>
+                <th scope="row">{{ index }}</th>
+                <td colspan="0">{{ row['description'] }}</td>
+                <td>{{ row['repositories'] }}</td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}
