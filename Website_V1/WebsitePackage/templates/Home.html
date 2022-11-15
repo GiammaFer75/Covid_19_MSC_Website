@@ -1,5 +1,6 @@
 {% extends "general_layout.html" %}
 {% block content %}
+<!--	
 	<div class="container-fluid mx-0 bg-warning" >
 		<div class="row" id="search_bar">
 			<div class="col-12">
@@ -11,11 +12,16 @@
 				</div>
 			</div>
 		</div>
-
+                                -->
 <!-- START Test Button for Ajax -->
 		<div class="container">
 			<div class="row" id="search_bar">
 				<div class="row">
+					<div class="col">
+						<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Search 
+						</button>
+
+					</div>
 					<div class="col">
 						<a type="button" class="btn btn-primary btn-sm btn-block" href="{{ url_for('New_Record') }}">New Record</a>
 				    </div>
@@ -28,6 +34,55 @@
 				</div>
 			</div>
         </div>
+
+
+<!-- TRY OFCANVAS SEARCH BAR -->
+        
+		<!-- https://stackoverflow.com/questions/35668957/foundation-6-off-canvas-where-should-i-put-the-menu-content -->
+		<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+  			<div class="offcanvas-header">
+    			<h5 class="offcanvas-title" id="offcanvasScrollingLabel">SEARCH</h5>
+    			<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  			</div>
+  			<div class="offcanvas-body">
+    			<form class="row g-3">
+    				<div class="col lg">
+    					<label for="input_sub_group" class="form-label">Subjects Group id</label>
+    					<input type="text" class="form-control" id="input_sub_group"> 
+    					<label for="input_subject" class="form-label">Subject id</label>
+    					<input type="text" class="form-control" id="input_subject"> 
+    					<label for="input_sample_type" class="form-label">Sample Type</label>
+    					<input type="text" class="form-control" id="input_sample_type">
+
+    					<div class="dropdown">
+    						<a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    							Sample Type
+    						</a>
+
+    						<ul class="dropdown-menu">
+    							<div class="form-check">
+								  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+								  <label class="form-check-label" for="flexCheckDefault">
+								    Default checkbox
+								  </label>
+								</div>
+
+								<li><a class="dropdown-item" href="#">Action</a></li>
+							    <li><a class="dropdown-item" href="#">Another action</a></li>
+							    <li><a class="dropdown-item" href="#">Something else here</a></li>
+							</ul>
+    					</div>
+
+
+    					<label for="input_site_name" class="form-label">Site</label>
+    					<input type="text" class="form-control" id="input_site_name">
+    				</div>
+
+    			</form>
+  			</div>
+		</div>
+
+
 <!-- END Test Button for Ajax -->
 
 
