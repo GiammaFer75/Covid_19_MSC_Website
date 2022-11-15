@@ -1,7 +1,8 @@
 from WebsitePackage.db import Base, engine, Session
 from WebsitePackage.models import SubjectGroup, Projects, Institutions, Sample_Processing, Protocols, Data_Processing, Repositories, Researchers
-
+from WebsitePackage.models import Subjects_Groups, Subjects, Samples, Sites, Events, Sample_Types, Analysis_Types, sample_sampleTypes, sample_analysisType
 import random
+import copy
 
 # RESET EVERYTHING
 Base.metadata.drop_all(engine)
@@ -15,7 +16,7 @@ institution_names = ['University of Surrey', 'University of Sussex', 'University
                      'Queen Mary Hospital', 'Charing Cross Hospital', 'Chelsea and Westminster Hospital', 'Queen Charlotte''s and Chelsea Hospital', 
                      'St Thomas'' Hospital', 'University College Hospital', 'University Hospital Wishaw']
 
-sample_processing_type = ['SWATH Proteomic', 'Proteomic', 'Metabolomic', 'Lipodomic']
+analysis_types_list = ['SWATH Proteomic', 'Proteomic', 'Metabolomic', 'Lipodomic']
 
 protocol_type = ['Metabolomic/Lipodomic-V0.4', 'Proteomic-V0.2', 'HDX-MS-2020']
 
@@ -33,6 +34,11 @@ subjectgroup_descriptions = ['Male London', 'Female Surrey', 'Health Workers', '
 
 project_titles = ['Proteomics Investigation of protein RTD4654', 'Metabolomic Comparative Study', 'Lipodomics fingerprint of Covid19', 'Metabolomics Investigation',
                   'Cov19 Proteomic profile', 'Metabolomic Assessment for Covid19']
+
+
+
+
+
 
 def random_series(randomizable_list, n):
     import random
@@ -87,6 +93,9 @@ def db_V1():
         session.add(new_group)
         session.commit()
 
+
+
+
 def db_V2(n_projects = 5):
     '''
     Generate a dummy database using the fisical model that is related only to the OMICS FEATURES
@@ -123,7 +132,7 @@ Sample_Processing
           ''')
 
     samp_process_tab = Sample_Processing
-    for p_type in sample_processing_type:
+    for p_type in analysis_types_list:
         new_samp_process = samp_process_tab(processing_type=p_type)
         session.add(new_samp_process)
         session.commit()
@@ -253,7 +262,7 @@ Projects
     pl(researcher)
     institution_ID       = random_series(institution_names, n_projects)
     pl(institution_ID)
-    sample_processing_ID = [select_samprocess(title) for title in project_title] #random_series(sample_processing_type, n_projects)
+    sample_processing_ID = [select_samprocess(title) for title in project_title] #random_series(analysis_types_list, n_projects)
     pl(sample_processing_ID)
     protocol_ID          = [select_protocol(title) for title in project_title] #random_series(protocol_type, n_projects)
     pl(protocol_ID)
@@ -333,9 +342,191 @@ POPULATE MANY-TO-MANY
 
 
 
+def db_V3(n_subj_group = 5, n_subjects = 30,
+          sites_list = institution_names):
+    """
+    This database reflect the schema created on 14/11/2022
+    """
+    session = Session()
+
+    events_list       = ["First Sample", "Second Sample", "Third Sample"]
+    sample_types_list = ["serum", "sebum", "saliva"]
+    sites_list        = ["Surrey", "ISARIC", "PHOSP"]
+
+
+    print(''' 
+------
+Events
+------ 
+    ''')
+    event_types_inst = Events
+    for event_type_name in events_list:
+        new_event_type = event_types_inst(event_name=event_type_name)
+        session.add(new_event_type)
+        session.commit()
+
+    event_t = session.query(Events)
+    for i in event_t.all(): print(f'{i.event_id}\t-\t{i.event_name}')
+
+    print(''' 
+-----
+Sites
+----- 
+    ''')
+    sites_inst = Sites
+    for site_name in sites_list:
+        new_site = sites_inst(site_name=site_name)
+        session.add(new_site)
+        session.commit()
+
+    site_t = session.query(Sites)
+    for i in site_t.all(): print(f'{i.site_id}\t-\t{i.site_name}')
+
+
+    print(''' 
+------------
+Sample_Types
+------------ 
+    ''')
+    sample_types_inst = Sample_Types
+    for sample_type_name in sample_types_list:
+        new_sample_type = sample_types_inst(sample_type_name=sample_type_name)
+        session.add(new_sample_type)
+        session.commit()
+
+    sample_t = session.query(Sample_Types)
+    for i in sample_t.all(): print(f'{i.sample_type_id}\t-\t{i.sample_type_name}')
+
+
+    print(''' 
+--------------
+Analysis_Types
+-------------- 
+    ''')
+    analysis_types_inst = Analysis_Types
+    for analysis_type_name in analysis_types_list:
+        new_analysis_type = analysis_types_inst(analysis_type_name=analysis_type_name)
+        session.add(new_analysis_type)
+        session.commit()
+
+    analysis_t = session.query(Analysis_Types)
+    for i in analysis_t.all(): print(f'{i.analysis_type_id}\t-\t{i.analysis_type_name}')
+
+
+    print(''' 
+---------------
+Subjects_Groups
+--------------- 
+    ''')
+    subj_group_inst = Subjects_Groups
+    for project in range(1, n_subj_group):
+        project_code = "MSC-G-" + str(project)
+        new_subj_group = subj_group_inst(subjects_group_id=project_code,
+                                         site_id          =0
+                                         )
+        session.add(new_subj_group)
+        session.commit()
+
+    subjects_groups = session.query(Subjects_Groups)
+    for i in subjects_groups.all(): print(f'{i.subjects_group_id}\t-\t{i.site_id}')
+
+    print(''' 
+--------
+Subjects
+-------- 
+    ''')
+    subjects_inst = Subjects
+    subj_id = random.sample(range(1, 500), n_subjects) # The subjects id list must be assigned below to the samples generation
+    subjects_groups = session.query(Subjects_Groups)
+    subjects_groups_list = [sbj_g.subjects_group_id for sbj_g in subjects_groups.all()]
+    for subject in subj_id:
+        new_subject = subjects_inst(subject_id="MSC-" + str(subject),
+                                    subject_group_id=random.choice(subjects_groups_list)
+                                    )
+        session.add(new_subject)
+        session.commit()
+
+    subjects = session.query(Subjects)
+    for i in subjects.all(): print(f'{i.subject_id}\t-\t{i.subject_group_id}')
+
+    print(''' 
+--------
+Samples
+-------- 
+    ''')
+    samples_inst = Samples
+    subj_id = session.query(Subjects)
+    subj_id_list = [s_id.subject_id for s_id in subj_id.all()]
+
+    for subject in subj_id_list:
+        number_of_samples = random.randint(1,3)         # How many samples for this subject
+        site = random.randint(1,len(sites_list))                # The site for all the sample is defined before the generation of the random samples
+        for event_number in range(1,number_of_samples): # The event First - Second - Third sample are defined before the sample type and analysis
+
+            type_of_samples   = random.sample(sample_types_list, number_of_samples) # Which type of samples for this subject 
+            #print(type_of_samples)
+            for sample_type in type_of_samples:
+                number_of_analysis  = random.randint(1,3)           
+                types_of_analysis   = random.sample(analysis_types_list, number_of_analysis)
+                #types_of_analysis   =random_series(analysis_types_list, number_of_analysis)
+                #print(types_of_analysis)
+                for analysis_name in types_of_analysis:
+                    sample_type_record   = session.query(Sample_Types).filter_by(sample_type_name=sample_type).first()
+                    analysis_type_record = session.query(Analysis_Types).filter_by(analysis_type_name=analysis_name).first()
+                    
+                    # Add the new sample
+                    new_sample = samples_inst(subject_id=subject,
+                                              event_id=event_number,
+                                              site_id=site
+                                              )
+                    session.add(new_sample)
+                    session.commit()
+                    sample_id=session.query(Samples).count() # Fetch the id of the LAST SAMPLE recorded
+
+                    
+                    # https://stackoverflow.com/questions/21667215/populating-a-sqlalchemy-many-to-many-relationship-using-ids-instead-of-objects
+                    # Connect the sample with the sample type
+                    session.execute(sample_sampleTypes.insert()
+                           .values([(sample_id, sample_type_record.sample_type_id)]))
+                    # Connect the sample with the analysis type
+                    session.execute(sample_analysisType.insert()
+                           .values([(sample_id, analysis_type_record.analysis_type_id)]))
+                    
+                    #print(f'{subject} - {sample_id} - {sample_type} - {analysis_name}')
+
+    
+    samples = session.query(Samples)
+    for i in samples.all():
+        # Query a many to many
+        # https://stackoverflow.com/questions/12593421/sqlalchemy-and-flask-how-to-query-many-to-many-relationship 
+        #print(f'{i.sample_id}\t-\t{i.subject_id}\n{i.event_id}\t-\t{i.site_id}')
+
+        samples = session.query(Samples).filter_by(sample_id=i.sample_id).all()
+    
+        for sample in samples:
+            # subjects   = sesion.query(Subjects).filter_by(subject_id=sample.subject_id).first()
+            # subj_group = session.query
+            print(sample.subject_id,
+                  " - ",session.query(Subjects).filter_by(subject_id=sample.subject_id).first().subject_group_id,
+                  " - ",sample.sample_id,
+                  " - ",session.query(Events).filter_by(event_id=sample.event_id).first().event_name,
+                  " - ",session.query(Sites).filter_by(site_id=sample.site_id).first().site_name,
+                  " - "," | ".join(sample_types.sample_type_name for sample_types in sample.sample_types),
+                  " - "," | ".join(analysis_types.analysis_type_name for analysis_types in sample.analysis_types)
+                  )
+#         print(f"""
+
+# Sample - {i.sample_id}
+#        Subject - {i.subject_id}
+#        {i.event_id}\t-\t{i.site_id}
+#        Sample type - {" | ".join(sample_types.sample_type_name for sample_types in sample.sample_types)}
+#        Analysis type - {" | ".join(analys_types.analysis_type_name for analys_types in sample.analysis_types)}
+#         """)
+
+
 def main():
 
-    db_V2()
+    db_V3()
     print('Database RESET')
 
 
