@@ -2,31 +2,29 @@
 from WebsitePackage import Cov19_msc 
 from WebsitePackage import db
 from WebsitePackage.db import Base, Session, engine, metadata_obj
-from WebsitePackage.models import SubjectGroup
+from WebsitePackage.models import Subjects_Groups
 from flask import Flask, render_template, url_for, request
 import os, sqlalchemy
+import json
 from sqlalchemy import delete
 
 from WebsitePackage import controller
 
 session = Session()
 
+
 @Cov19_msc.route("/")
 @Cov19_msc.route("/Home")
 def home_page():
   logo_filename = os.path.join(Cov19_msc.config['UPLOAD_FOLDER'], 'cropped-Covid19-MSC.png')
-  # subject_group_table = session.query(SubjectGroup)
-
-
-  # print('Current number of records - ',session.query(SubjectGroup).count())
-
-  # df = controller.return_SubjectGroup_table()
-
-  # return render_template("Home.html", 
-  #                        logo_image = logo_filename, 
-  #                        subject_group_table=df) #subject_group_table.all()
+  print('Current number of records - ',session.query(Subjects_Groups).count())
+  
+  df = controller.return_SubjectGroup_table()
   return render_template("Home.html", 
-                          logo_image = logo_filename)
+                         logo_image = logo_filename, 
+                         subject_group_table=df) #subject_group_table.all()
+  # return render_template("Home.html", 
+  #                         logo_image = logo_filename)
 
 
 @Cov19_msc.route("/page1")
@@ -42,6 +40,36 @@ def page1():
 # ******************************************************************************************** #
 #                                       UTILITY PAGES                                          #  
 # ******************************************************************************************** #
+
+@Cov19_msc.route("/Search", methods=['GET', 'POST'])
+def Search():
+  logo_filename = os.path.join(Cov19_msc.config['UPLOAD_FOLDER'], 'cropped-Covid19-MSC.png')
+
+  if request.method == "POST":
+
+    if request.data != '':
+      form_data = json.loads(request.data)
+      print(form_data["sample_type"])
+    print(request.data)
+
+    form_subjects_group = request.form.get("subjects_group")
+    form_subject        = request.form.get("subject")
+    form_event          = request.form.get("event")
+    form_site           = request.form.get("site")
+    form_sample_type    = request.form.get("sample_type")
+    form_analysis       = request.form.get("analysis")
+
+    print(f"""
+          Subjects Group : {form_subjects_group}
+          Subject        : {form_subject}
+          Event          : {form_event}
+          Site           : {form_site}
+          Sample Type    : {form_sample_type}
+          Analysis       : {form_analysis}
+
+           """)
+  return render_template("Search.html",
+                         logo_image = logo_filename)
 
 @Cov19_msc.route("/New_Record", methods=['GET', 'POST'])
 def New_Record():
@@ -81,46 +109,7 @@ def Create_DD():
   Create the dummy database from the scratch
   '''
   logo_filename = os.path.join(Cov19_msc.config['UPLOAD_FOLDER'], 'cropped-Covid19-MSC.png')
-  # #metadata_obj.create_all(engine)
-  # list_id = session.query(SubjectGroup.group_id)
-  # for g_id in list_id.all():
-  #   print(g_id[0])
-  #   session.query(SubjectGroup).filter(SubjectGroup.group_id == g_id[0]).delete(synchronize_session=False)
-  #   session.commit()
-
-  # # Dummy table
-  # subject_group_table = [{'group_id': '001', 'description': 'Hospitalized subjects', 'rep':['p','m','z']},
-  #       {'group_id': '002', 'description': 'Young students'       , 'rep':['p','z']},
-  #       {'group_id': '003', 'description': 'Female from Wales'    , 'rep':['p','m','z']},
-  #       {'group_id': '004', 'description': 'Male from London'     , 'rep':['p','m']},
-  #       {'group_id': '005', 'description': 'Scottish healthcare personnel', 'rep':['m']},
-  #       {'group_id': '006', 'description': 'Commonwealth research', 'rep':['p']}]
-  
-
-  # descript_vect = ['Male London', 'Female Surrey', 'Health Workers', 'Elder subjects', 
-  #                  'Liverpool group', 'Subjects over 80', 'Male Surrey', 'Health Workers 40'
-  # ]
-  # repos_vect = ['PRIDE,MetaboLight', 'ZENODO', 'PRIDE,ZENODO','PRIDE,MetaboLight,ZENODO',
-  #               'PRIDE, ZENODO', 'MetaboLight,ZENODO', 'PRIDE,MetaboLight,ZENODO', 'PRIDE,MetaboLight,ZENODO'
-  # ]
-
-  # subj_group_table = SubjectGroup 
-  # for ind, desc in enumerate(descript_vect):
-  #     new_group = subj_group_table(description=desc, repositories=repos_vect[ind]) # It is a class of type SubjectGroup with the attributes
-  #     session.add(new_group)
-  #     session.commit()
-
-  # print(session.query(SubjectGroup).count())
   from WebsitePackage import generate_dummy_db 
-
   generate_dummy_db.main()
-
   return render_template("Create_DD.html",
                          logo_image = logo_filename)
-
-# @Cov19_msc.context_processor
-# def utility_functions():
-#     def print_in_console(message):
-#         print (str(message))
-
-#     return dict(mdebug=print_in_console)
