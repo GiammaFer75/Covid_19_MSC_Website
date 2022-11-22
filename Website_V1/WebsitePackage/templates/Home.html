@@ -18,9 +18,9 @@
 			<div class="row" id="search_bar">
 				<div class="row">
 					<div class="col">
-						<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Search 
-						</button>
-
+						<!--<button class="btn btn-primary btn-sm btn-block" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Search 
+						</button>-->
+                        <a type="button" class="btn btn-primary btn-sm btn-block" href="{{ url_for('Search') }}">Search</a> 
 					</div>
 					<div class="col">
 						<a type="button" class="btn btn-primary btn-sm btn-block" href="{{ url_for('New_Record') }}">New Record</a>
@@ -39,6 +39,7 @@
 <!-- TRY OFCANVAS SEARCH BAR -->
         
 		<!-- https://stackoverflow.com/questions/35668957/foundation-6-off-canvas-where-should-i-put-the-menu-content -->
+		<!--{#   
 		<div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
   			<div class="offcanvas-header">
     			<h5 class="offcanvas-title" id="offcanvasScrollingLabel">SEARCH</h5>
@@ -51,28 +52,17 @@
     					<input type="text" class="form-control" id="input_sub_group"> 
     					<label for="input_subject" class="form-label">Subject id</label>
     					<input type="text" class="form-control" id="input_subject"> 
-    					<label for="input_sample_type" class="form-label">Sample Type</label>
-    					<input type="text" class="form-control" id="input_sample_type">
 
     					<div class="dropdown">
-    						<a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    							Sample Type
-    						</a>
-
+    						<button class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    							Sample Types
+    						</button>
     						<ul class="dropdown-menu">
-    							<div class="form-check">
-								  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-								  <label class="form-check-label" for="flexCheckDefault">
-								    Default checkbox
-								  </label>
-								</div>
-
 								<li><a class="dropdown-item" href="#">Action</a></li>
 							    <li><a class="dropdown-item" href="#">Another action</a></li>
 							    <li><a class="dropdown-item" href="#">Something else here</a></li>
 							</ul>
     					</div>
-
 
     					<label for="input_site_name" class="form-label">Site</label>
     					<input type="text" class="form-control" id="input_site_name">
@@ -81,28 +71,34 @@
     			</form>
   			</div>
 		</div>
+		#}-->
 
+<!-- END OFFCANVAS -->
 
-<!-- END Test Button for Ajax -->
+<!--{#   #}-->
 
-
-		<!-- {# <div class="row" id="results_table">
+		<div class="row" id="results_table">
 			<div class="col-12 mt-2 bg-secondary min-vh-75" id="visualResults">
 				<table class="table table-primary table-striped">
 	  				<thead>
 			            <tr>
-			              <th scope="col">group ID</th>
-			              <th scope="col">Description</th>
-			              <th scope="col">Repositories</th>
+			              <th scope="col">GROUP</th>
+			              <th scope="col">Subject</th>
+			              <th scope="col">Site</th>
+			              <th scope="col">Event</th>
+			              <th scope="col">Sample Type</th>
+			              <th scope="col">Analysis Type</th>
 			            </tr>
 					</thead>
 					<tbody class="table-group-divider">
 						{% for index, row in subject_group_table.iterrows() %}
 			            <tr>
-			              <th scope="row">{{ index }}</th>
-			              <td colspan="0">{{ row['description'] }}</td>
-			              <td>{{ row['repositories'] }}</td>
-
+			              <td colspan="0">{{ row['subjects_group_id'] }}</td>
+			              <td>{{ row['subject_id'] }}</td>
+			              <td>{{ row['site'] }}</td>
+			              <td>{{ row['event'] }}</td>
+			              <td>{{ row['sample_type'] }}</td>
+			              <td>{{ row['analysis_type'] }}</td>
 						</tr>
 			            {% endfor %}
 
@@ -110,7 +106,7 @@
 
 				</table>				
 			</div>
-		</div> #} -->
+		</div> 
 
 	</div>
 
