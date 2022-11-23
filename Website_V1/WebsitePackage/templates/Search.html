@@ -1,7 +1,7 @@
 {% extends "general_layout.html" %}
 {% block content %}
 <div>
-	<form class="row g-3" action="{{ url_for('Search') }}" method="post">
+	<form class="row g-3" action="{{ url_for('home_page') }}" method="post">
 		<div class="col lg">
 			<div class="input-group mb-3">
 			  <div class="input_subjects_group">
@@ -39,27 +39,41 @@
 			  <!-- DROP DOWN -->
 			    <div class="dropdown">
 			      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_sample_type_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-			        Sample_Type
+			        Sample Type
 			      </button>
 			      <ul class="dropdown-menu" id="dd_sample_type_lst">
-			        <li><a class="dropdown-item" href="#">Action</a></li>
-			        <li><a class="dropdown-item" href="#">Another action</a></li>
-			        <li><a class="dropdown-item" href="#">Something else here</a></li>
+			        {% for item in sample_types_items %}
+			        	<li><a class="dropdown-item">{{ item }}</a></li>
+			        {% endfor %}
 			      </ul>
 			    </div>
 		<!-- SAMPLE TYPE INPUT -->
 			    <input type="text" class="form-control" id="input_sample_type" name="sample_type" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
 			</div>
 	
-			<div class="input-group mb-3">
-			  <div class="input_subjects_group">
-			    <span class="input-group-text" id="input_analysis">Analysis</span>
-			  </div>
-			  <input type="text" class="form-control" name="analysis" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+
+<!-- ANALYSIS TYPE GROUP -->
+			<div class="input-group mb-3 input-group-sm">
+			  <!-- DROP DOWN -->
+			    <div class="dropdown">
+			      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_analysis_type_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			       Analysis Type
+			      </button>
+			      <ul class="dropdown-menu" id="dd_analysis_type_lst">
+			        {% for item in analysis_types_items %}
+			        	<li><a class="dropdown-item">{{ item }}</a></li>
+			        {% endfor %}
+			      </ul>
+			    </div>
+		<!-- ANALYSIS TYPE INPUT -->
+			    <input type="text" class="form-control" id="input_analysis_type" name="analysis_type" placeholder=""  aria-label="Analysis Type" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
 			</div>
 
+
 <!-- SUBMIT BUTTON -->
-			<input class="btn btn-primary" type="submit" value=Submit href="{{ url_for('home_page') }}"></input>
+             
+			 <input class="btn btn-primary" type="submit" value=Submit href=""></input> 
+			<!--<input class="btn btn-primary" type="submit" value=Submit ><a href="{{ url_for('home_page') }}"></a></input>-->
 		</div>
 	</form>
 </div>
@@ -68,12 +82,12 @@
 
 <!-- MODAL -->
 <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<!--    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Launch demo modal
-    </button>
+    </button>-->
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!--<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -89,7 +103,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
 
 
 {% endblock content %}
