@@ -4,19 +4,56 @@
 	<h1>New Record Input</h1>
 </div>
 <form action="{{ url_for('New_Record') }}" method="post">
+<!-- <form action="{{ url_for('home_page') }}" method="post"> -->
+	<!-- <div class="input-group mb-3">
+	  <div class="input-group-prepend">
+	    <span class="input-group-text" id="basic-addon1">Group ID</span>
+	  </div>
+	  <input type="text" class="form-control" name="group_id" placeholder="Group ID"  aria-label="Group Description" aria-describedby="basic-addon1">  
+	</div>-->
+	<!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form-->
+<!-- Subject Group - GROUP -->
+		<div class="input-group mb-3 input-group-sm">
+		  <!-- DROP DOWN -->
+		    <div class="dropdown">
+		      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_subject_group_btn_n" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+		        Subject Group
+		      </button>
+		      <ul class="dropdown-menu" id="dd_subject_group_lst_n">
+		        {% for item in subjects_groups_names %}
+		        	<li><a class="dropdown-item">{{ item }}</a></li>
+		        {% endfor %}
+		      </ul>
+		    </div>
+	<!-- Subject Group - INPUT -->
+		    <input type="text" class="form-control" id="input_subject_group_n" name="subjects_group" placeholder=""  aria-label="subject_group" aria-describedby="basic-addon1"> 
+		    <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+		</div>
+
+<!-- SUBJECT -->
 	<div class="input-group mb-3">
 	  <div class="input-group-prepend">
-	    <span class="input-group-text" id="basic-addon1">Group Description</span>
+	    <span class="input-group-text" id="subject_id_lbl">Subject ID</span>
 	  </div>
-	  <input type="text" class="form-control" name="description" placeholder="Group Description"  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+	  <input type="text" class="form-control" id="subject_id" name="subject_id" placeholder="Subject ID" aria-label="Repositories" aria-describedby="basic-addon1">
 	</div>
 
-	<div class="input-group mb-3">
-	  <div class="input-group-prepend">
-	    <span class="input-group-text" id="basic-addon1">Repositories</span>
-	  </div>
-	  <input type="text" class="form-control" name="repositories" placeholder="Repositories" aria-label="Repositories" aria-describedby="basic-addon1">
-	</div>
+<!-- ANALYSIS TYPE GROUP -->
+			<div class="input-group mb-3 input-group-sm">
+			  <!-- DROP DOWN -->
+			    <div class="dropdown">
+			      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_analysis_type_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			       Analysis Type
+			      </button>
+			      <ul class="dropdown-menu" id="dd_analysis_type_lst">
+			        {% for item in analysis_types_names %}
+			        	<li><a class="dropdown-item">{{ item }}</a></li>
+			        {% endfor %}
+			      </ul>
+			    </div>
+		<!-- ANALYSIS TYPE INPUT -->
+			    <input type="text" class="form-control" id="input_analysis_type" name="analysis_type" placeholder=""  aria-label="Analysis Type" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
 
 	<div class="container">
 		<input type="submit" class="btn btn-primary" id="Submit" value=Submit></input>

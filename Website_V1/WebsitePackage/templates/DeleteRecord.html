@@ -3,39 +3,84 @@
 <div>
 	<h1>Delete Record</h1>
 </div>
+<div>
+	<form class="row g-3" action="{{ url_for('home_page') }}" method="post">
+		<div class="col lg">
+			<div class="input-group mb-3">
+			  <div class="input_subjects_group">
+			    <span class="input-group-text" id="input_subjects_group">Subjects Group</span>
+			  </div>
+			  <input type="text" class="form-control" name="subjects_group" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
+            
+            <div class="input-group mb-3">
+			  <div class="input_subjects_group">
+			    <span class="input-group-text" id="input_subject">Subject</span>
+			  </div>
+			  <input type="text" class="form-control" name="subject" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
 
-<form action="{{ url_for('Delete_Record') }}" method="post">
+			<div class="input-group mb-3">
+			  <div class="input_subjects_group">
+			    <span class="input-group-text" id="input_event">Event</span>
+			  </div>
+			  <input type="text" class="form-control" name="event" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
 
-	<div class="input-group mb-3">
-	  <div class="input-group-prepend">
-	    <span class="input-group-text" id="basic-addon1">Group ID</span>
-	  </div>
-	  <input type="text" class="form-control" name="group_id" value="" placeholder="Group Description" aria-label="Group Description" aria-describedby="basic-addon1">
-	</div>
+			<div class="input-group mb-3">
+			  <div class="input_subjects_group">
+			    <span class="input-group-text" id="input_site">Site</span>
+			  </div>
+			  <input type="text" class="form-control" name="site" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
 
-	<div class="input-group mb-3">
-	  <div class="input-group-prepend">
-	    <span class="input-group-text" id="basic-addon1">Group Description</span>
-	  </div>
-	  <input type="text" class="form-control" name="description" value="" placeholder="Group Description" aria-label="Group Description" aria-describedby="basic-addon1">
-	</div>
+<!-- SAMPLE TYPE GROUP -->
+			<div class="input-group mb-3 input-group-sm">
+			  <!-- <div class="input_subjects_group">
+			    <span class="input-group-text" id="text_input_sample_type">Sample Type</span>
+			  </div> -->
+			  <!-- DROP DOWN -->
+			    <div class="dropdown">
+			      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_sample_type_btn_d" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			        Sample Type
+			      </button>
+			      <ul class="dropdown-menu" id="dd_sample_type_lst_d">
+			        {% for item in sample_types_names %}
+			        	<li><a class="dropdown-item">{{ item }}</a></li>
+			        {% endfor %}
+			      </ul>
+			    </div>
+		<!-- SAMPLE TYPE INPUT -->
+			    <input type="text" class="form-control" id="delete_sample_type" name="sample_type" placeholder=""  aria-label="Group Description" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
+	
 
-	<div class="input-group mb-3">
-	  <div class="input-group-prepend">
-	    <span class="input-group-text" id="basic-addon1">Repositories</span>
-	  </div>
-	  <input type="text" class="form-control" name="repositories" value="" placeholder="Repositories" aria-label="Repositories" aria-describedby="basic-addon1">
-	</div>
+<!-- ANALYSIS TYPE GROUP -->
+			<div class="input-group mb-3 input-group-sm">
+			  <!-- DROP DOWN -->
+			    <div class="dropdown">
+			      <button class="btn btn-secondary btn-sm dropdown-toggle" id="dd_analysis_type_btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+			       Analysis Type
+			      </button>
+			      <ul class="dropdown-menu" id="dd_analysis_type_lst">
+			        {% for item in analysis_types_names %}
+			        	<li><a class="dropdown-item">{{ item }}</a></li>
+			        {% endfor %}
+			      </ul>
+			    </div>
+		<!-- ANALYSIS TYPE INPUT -->
+			    <input type="text" class="form-control" id="input_analysis_type" name="analysis_type" placeholder=""  aria-label="Analysis Type" aria-describedby="basic-addon1"> <!-- https://stackoverflow.com/questions/46257630/flask-not-detecting-post-request-from-form -->
+			</div>
 
-	<div class="container">
-		<input type="submit" class="btn btn-primary" id="Submit" value=Submit ></input>
-	</div>
-</form>
 
-
-<!-- href="{{ url_for('home_page') }}" -->
-
-<div class="container">
-	<a type="button" class="btn btn-primary" id="Search" href="{{ url_for('home_page') }}">Return to the Home Page</a>
+<!-- SUBMIT BUTTON -->
+             
+			 <input class="btn btn-primary" type="submit" value=Submit href=""></input> 
+			<!--<input class="btn btn-primary" type="submit" value=Submit ><a href="{{ url_for('home_page') }}"></a></input>-->
+		</div>
+	</form>
 </div>
+
 {% endblock content %}
+
+<!-- https://stackoverflow.com/questions/52669636/bootstrap-dropdown-menu-not-popping-up -->
